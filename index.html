@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pequeño libro negro</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#0b0b0b;
+  --text:#eaeaea;
+  --accent:#bfa37a;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  font-family:'Playfair Display',serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+/* INTRO */
+#intro{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  padding:40px;
+}
+
+#intro h1{
+  font-size:48px;
+  margin-bottom:40px;
+  letter-spacing:4px;
+}
+
+button{
+  background:none;
+  border:1px solid var(--accent);
+  color:var(--accent);
+  padding:14px 36px;
+  font-size:16px;
+  letter-spacing:3px;
+  cursor:pointer;
+  border-radius:40px;
+}
+
+button:hover{
+  background:var(--accent);
+  color:#000;
+}
+
+/* HISTORIA */
+#historia{
+  max-width:900px;
+  margin:0 auto;
+  padding:120px 40px 80px;
+  text-align:center;
+}
+
+#historia h2{
+  letter-spacing:6px;
+  margin-bottom:60px;
+  color:var(--accent);
+}
+
+.historia-box{
+  font-size:20px;
+  line-height:2;
+  min-height:200px;
+}
+
+.flechas{
+  display:flex;
+  justify-content:center;
+  gap:60px;
+  margin-top:40px;
+}
+
+.flechas span{
+  cursor:pointer;
+  font-size:32px;
+  color:var(--accent);
+}
+
+/* FOTO PROGRESIVA */
+#foto-progress{
+  max-width:900px;
+  margin:0 auto 120px;
+  text-align:center;
+  opacity:0;
+  transition:opacity 1.2s ease;
+}
+
+#foto-progress img{
+  width:100%;
+  max-height:500px;
+  object-fit:contain;
+  border:6px solid #222;
+}
+
+/* MENSAJE PARA TI */
+#mensaje-container{
+  max-width:800px;
+  margin:80px auto 0;
+  text-align:center;
+}
+
+#mensaje-btn{
+  margin-bottom:15px;
+}
+
+#arrow{
+  font-size:22px;
+  color:var(--accent);
+  animation:bounce 1.3s infinite;
+}
+
+#mensaje{
+  margin-top:40px;
+  font-size:18px;
+  line-height:2;
+  opacity:0;
+  transition:opacity 1.5s ease;
+}
+
+#mensaje.visible{
+  opacity:1;
+}
+
+/* MENSAJE FINAL */
+#final-message{
+  max-width:800px;
+  margin:120px auto;
+  text-align:center;
+  font-size:18px;
+  line-height:2;
+  opacity:0;
+  transition:opacity 2s ease;
+}
+
+.hidden{display:none}
+
+@keyframes bounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(6px)}
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  #intro h1{font-size:32px}
+  .historia-box{font-size:16px}
+  #historia{padding:80px 20px 60px}
+  #final-message{font-size:16px;padding:0 20px}
+}
+</style>
+</head>
+<body>
+
+<section id="intro">
+  <h1>Pequeño libro negro</h1>
+  <button onclick="startStory()">ENTRAR</button>
+</section>
+
+<section id="historia" class="hidden">
+  <h2>RECUERDOS POCO CONOCIDOS</h2>
+  <div class="historia-box" id="texto"></div>
+  <div class="flechas">
+    <span onclick="prevStory()">⟵</span>
+    <span onclick="nextStory()">⟶</span>
+  </div>
+</section>
+
+<section id="foto-progress">
+  <img src="foto.png" alt="Recuerdo">
+</section>
+
+<section id="mensaje-container">
+  <button id="mensaje-btn">MENSAJE PARA TI</button>
+  <div id="arrow">↓</div>
+
+  <div id="mensaje">
+    Hola, esta pagina la hice hace un tiempo, para ser sincero no lo recuerdo.<br><br>
+    Hoy es 3 de febrero (10:37am) escribo esto mientras leia la historia.<br><br>
+    Muchas cosas cambiaron pero que la distancia y el tiempo no nos cambie,<br>
+    para en un futuro lejano volvernos a reencontrar.<br><br>Cambie un poco la historia a nuestro presente.
+  </div>
+</section>
+
+<section id="final-message">
+  <p>
+  Vamos por un año y una vida juntos, esta historia la hice cuando me sientas ausente,
+  para que la tengas en todos lados sin necesidad de un libro, te amo mucho
+  </p>
+</section>
+
+<audio id="bgm" src="bg-music.mp3" loop></audio>
+<audio id="click" src="tv-click.mp3"></audio>
+
+<script>
+const historia=[
+"Emily conoció a Jero sin buscarlo, en un momento donde nada parecía importante, excepto escucharlo hablar.",
+"Jero hablaba como si el mundo se fuera a acabar si guardaba silencio. Hablaba de todo: de lo que amaba, de lo que temía, de lo que aún no entendía.",
+"Emily escuchaba. No porque no tuviera palabras, sino porque sabía usarlas con cuidado.",
+"Jero se dio cuenta pronto de eso. De que ella no respondía rápido, pero cuando lo hacía, decía exactamente lo necesario.",
+"—Perdón si hablo demasiado —le dijo una vez—. Es que cuando me siento cómodo, no sé callarme.",
+"Emily sonrió apenas. Ese tipo de sonrisa que no se nota, pero se siente.",
+"Desde entonces, Jero habló con más confianza. Porque hablar y no ser interrumpido también es una forma de amor.",
+"Pasaron los días, y Jero empezó a contarle historias pequeñas: anécdotas sin importancia, recuerdos que nunca creyó valiosos.",
+"Emily los guardaba todos. Como si supiera que algún día serían importantes.",
+"Sin darse cuenta, comenzaron a elegirse.",
+"Primero fue quedarse más tiempo.",
+"Luego hablar cada noche.",
+"Después, la certeza silenciosa de que ya no eran solo amigos.",
+"—Creo que somos algo más —dijo Jero un día, hablando rápido, nervioso—. No sé cuándo pasó, pero pasó.",
+"Emily tardó en responder, como siempre.",
+"—Sí —dijo—. Lo somos.",
+"Así, sin promesas grandes, se hicieron pareja.",
+"Jero fue aún más romántico. Detallista. Decía te quiero en mil formas distintas.",
+"Emily no decía mucho, pero se quedaba. Y quedarse también era amar.",
+"Vivieron días felices. Risas largas. Rutinas compartidas.",
+"Jero hablaba del futuro como si ya estuviera escrito.",
+"Emily lo escuchaba, aunque a veces dudaba en silencio.",
+"Con el tiempo, algo empezó a cambiar.",
+"No hubo peleas grandes, ni gritos.",
+"Solo cansancio.",
+"Silencios más largos.",
+"Palabras que ya no encontraban lugar.",
+"Jero seguía hablando, pero ya no con la misma ilusión.",
+"Emily seguía escuchando, pero cada vez decía menos.",
+"—Siento que nos estamos perdiendo —confesó Jero una noche.",
+"Emily no respondió enseguida.",
+"—A veces perderse también es una forma de terminar —dijo finalmente.",
+"No terminaron de golpe.",
+"Se fueron soltando despacio.",
+"Menos mensajes.",
+"Menos noches compartidas.",
+"Hasta que un día, sin decirlo, ya no había relación.",
+"Solo recuerdos.",
+"Jero habló mucho ese último tiempo. Tal vez demasiado.",
+"Emily se volvió aún más silenciosa.",
+"No hubo rencor.",
+"Solo distancia.",
+"El tiempo pasó, como siempre lo hace.",
+"Y aunque ya no eran pareja, algo seguía intacto.",
+"El cariño.",
+"La historia.",
+"Lo que fueron.",
+"Jero entendió que no todo amor está hecho para durar.",
+"Emily entendió que amar también es saber soltar.",
+"Hoy no están juntos.",
+"Pero se recuerdan.",
+"Y a veces, eso también es una forma de quedarse.",
+"Porque algunas historias no terminan.",
+"Solo cambian de forma.",
+"Y se guardan.",
+"Como recuerdos poco conocidos."
+];
+
+let h=0;
+const texto=document.getElementById('texto');
+const bgm=document.getElementById('bgm');
+const click=document.getElementById('click');
+const foto=document.getElementById('foto-progress');
+const finalMsg=document.getElementById('final-message');
+const mensajeBtn=document.getElementById('mensaje-btn');
+const mensaje=document.getElementById('mensaje');
+
+function updatePhoto(){
+  const progress=(h+1)/historia.length;
+  foto.style.opacity=progress;
+}
+
+function startStory(){
+  document.getElementById('intro').style.display='none';
+  document.getElementById('historia').classList.remove('hidden');
+  texto.innerText=historia[h];
+  bgm.play();
+  updatePhoto();
+}
+
+function nextStory(){
+  if(h<historia.length-1){
+    h++;
+    texto.innerText=historia[h];
+    click.play();
+    updatePhoto();
+  } else {
+    finalMsg.style.opacity=1;
+    finalMsg.scrollIntoView({behavior:'smooth'});
+  }
+}
+
+function prevStory(){
+  if(h>0){
+    h--;
+    texto.innerText=historia[h];
+    click.play();
+    updatePhoto();
+  }
+}
+
+mensajeBtn.addEventListener('click',()=>{
+  mensaje.classList.add('visible');
+});
+</script>
+
+</body>
+</html>
